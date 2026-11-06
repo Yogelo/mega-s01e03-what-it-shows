@@ -8,16 +8,9 @@ signature: kb-student-s01e03
 ---
 
 <script>
-  import ProblemTable from '#lib/kb/ProblemTable.svelte';
   import CauseTable from '#lib/kb/CauseTable.svelte';
   import Callout from '#lib/kb/Callout.svelte';
   import RenderStamp from '#lib/kb/RenderStamp.svelte';
-
-  const issues = {
-    parser: 'https://github.com/Yogelo/mega-s01e03-what-it-shows/issues/1',
-    hint: 'https://github.com/Yogelo/mega-s01e03-what-it-shows/issues/2',
-    'one-day move': 'https://github.com/Yogelo/mega-s01e03-what-it-shows/issues/3',
-  };
 </script>
 
 The [#4471 page](/kb/incidents/4471) says the reports are one issue with one fix queued. Its own
@@ -30,35 +23,39 @@ The queued parser fix closes the first problem only. The other two keep coming a
 
 ## What #4471 holds
 
-<ProblemTable ticket={4471} {issues} />
+<CauseTable ticket={4471} />
+
+| problem | in the table above | ticket |
+| --- | --- | --- |
+| `parser` — day and month swapped | the `parser` row | [#1](https://github.com/Yogelo/mega-s01e03-what-it-shows/issues/1) |
+| `hint` — booking-v3 form asks month first | the `hint` row | [#2](https://github.com/Yogelo/mega-s01e03-what-it-shows/issues/2) |
+| `one-day move` — date lands one day off | the note under the table, counted within `parser` | [#3](https://github.com/Yogelo/mega-s01e03-what-it-shows/issues/3) |
 
 ## The three problems
 
-**`parser` — day and month swapped.** The shared parser reads every date month first. Every tenant on file writes
-the day first, so 3 May becomes 5 March. This is the fix that is queued.
+**`parser` — day and month swapped.** The shared parser reads every date month first. Every
+tenant on file writes the day first, so 3 May becomes 5 March. This is the fix that is queued.
+Ticket [#1](https://github.com/Yogelo/mega-s01e03-what-it-shows/issues/1).
 
 **`hint` — the booking-v3 form asks for the wrong order.** Under its date field, booking-v3
 prints `MM/DD/YYYY`. People type month first, as the hint tells them, and the form reads the
 tenant's way, day first. Only form reports from tenants on booking-v3. The parser fix does not
-touch it: the form needs a day-first hint.
+touch it: the form needs a day-first hint. The table marks it "no ticket of its own"; it has one
+now: [#2](https://github.com/Yogelo/mega-s01e03-what-it-shows/issues/2).
 
 **`one-day move` — the date lands one day off.** These reports describe a date one day early,
 an invite sent before the booking, and two clients in Lisbon and Toronto who got different days
 for one meeting. That is a time zone problem, not a swap. The desk noted them
 (`desk-notes.json`) and files them under `parser` by tenant. They stay counted there, the desk's
-way, and their own ticket covers them too.
+way, and their own ticket covers them too:
+[#3](https://github.com/Yogelo/mega-s01e03-what-it-shows/issues/3).
 
 ## How the count was made
 
 - The export repeats some rows. One id is one report.
 - Cause by tenant and channel, as in `causes.ts`. `intakeTag` is not the cause: intake tags
   `hint` whenever the reporter's browser is `en-US`.
-- A report is counted where the desk files it. The reports the desk reads as a one-day move are
-  counted under `parser` and again in their own row.
-
-For comparison, the desk's table on #4471, by cause only:
-
-<CauseTable ticket={4471} />
+- A report is counted where the desk files it. Each ticket lists the report ids it covers.
 
 ## What changes on the desk
 
