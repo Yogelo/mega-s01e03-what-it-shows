@@ -14,9 +14,9 @@ signature: kb-student-s01e03
   import RenderStamp from '#lib/kb/RenderStamp.svelte';
 
   const issues = {
-    parser: 'ISSUE_PARSER',
-    hint: 'ISSUE_HINT',
-    'one-day move': 'ISSUE_ONE_DAY',
+    parser: 'https://github.com/Yogelo/mega-s01e03-what-it-shows/issues/1',
+    hint: 'https://github.com/Yogelo/mega-s01e03-what-it-shows/issues/2',
+    'one-day move': 'https://github.com/Yogelo/mega-s01e03-what-it-shows/issues/3',
   };
 </script>
 
