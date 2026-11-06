@@ -45,14 +45,16 @@ touch it: the form needs a day-first hint.
 **`one-day move` — the date lands one day off.** These reports describe a date one day early,
 an invite sent before the booking, and two clients in Lisbon and Toronto who got different days
 for one meeting. That is a time zone problem, not a swap. The desk noted them
-(`desk-notes.json`), and the #4471 table files them under `parser` by tenant.
+(`desk-notes.json`) and files them under `parser` by tenant. They stay counted there, the desk's
+way, and their own ticket covers them too.
 
 ## How the count was made
 
 - The export repeats some rows. One id is one report.
 - Cause by tenant and channel, as in `causes.ts`. `intakeTag` is not the cause: intake tags
   `hint` whenever the reporter's browser is `en-US`.
-- The reports the desk read as a one-day move get their own row.
+- A report is counted where the desk files it. The reports the desk reads as a one-day move are
+  counted under `parser` and again in their own row.
 
 For comparison, the desk's table on #4471, by cause only:
 

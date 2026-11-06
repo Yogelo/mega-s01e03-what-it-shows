@@ -32,7 +32,7 @@
     {#each split.rows as r (r.problem)}
       <tr>
         <td><code>{r.problem}</code></td>
-        <td><strong>{r.reports.length}</strong></td>
+        <td><strong>{r.reports.length}</strong>{#if r.filedUnder}<span class="muted"> (within <code>{r.filedUnder}</code>)</span>{/if}</td>
         <td>{r.tenants.length}</td>
         <td class="muted">{channels(r.channels)}</td>
         <td>{r.firstSeen} → {r.lastSeen}</td>
