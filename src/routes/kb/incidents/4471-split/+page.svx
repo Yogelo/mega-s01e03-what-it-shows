@@ -27,9 +27,9 @@ The queued parser fix closes the first problem only. The other two keep coming a
 
 | problem | in the table above | ticket |
 | --- | --- | --- |
-| `parser` — day and month swapped | the `parser` row | [#1](https://github.com/Yogelo/mega-s01e03-what-it-shows/issues/1) |
+| `parser` — day and month swapped | the `parser` row, without the reports in the note | [#1](https://github.com/Yogelo/mega-s01e03-what-it-shows/issues/1) |
 | `hint` — booking-v3 form asks month first | the `hint` row | [#2](https://github.com/Yogelo/mega-s01e03-what-it-shows/issues/2) |
-| `one-day move` — date lands one day off | the note under the table, counted within `parser` | [#3](https://github.com/Yogelo/mega-s01e03-what-it-shows/issues/3) |
+| `one-day move` — date lands one day off | the note under the table | [#3](https://github.com/Yogelo/mega-s01e03-what-it-shows/issues/3) |
 
 ## The three problems
 
@@ -46,8 +46,8 @@ now: [#2](https://github.com/Yogelo/mega-s01e03-what-it-shows/issues/2).
 **`one-day move` — the date lands one day off.** These reports describe a date one day early,
 an invite sent before the booking, and two clients in Lisbon and Toronto who got different days
 for one meeting. That is a time zone problem, not a swap. The desk noted them
-(`desk-notes.json`) and files them under `parser` by tenant. They stay counted there, the desk's
-way, and their own ticket covers them too:
+(`desk-notes.json`) but files them under `parser` by tenant. They belong to their own ticket, not
+to the parser one:
 [#3](https://github.com/Yogelo/mega-s01e03-what-it-shows/issues/3).
 
 ## How the count was made
@@ -55,7 +55,7 @@ way, and their own ticket covers them too:
 - The export repeats some rows. One id is one report.
 - Cause by tenant and channel, as in `causes.ts`. `intakeTag` is not the cause: intake tags
   `hint` whenever the reporter's browser is `en-US`.
-- A report is counted where the desk files it. Each ticket lists the report ids it covers.
+- Each report is in one ticket only. Each ticket lists the report ids it covers.
 
 ## What changes on the desk
 
