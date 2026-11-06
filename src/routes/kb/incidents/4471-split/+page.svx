@@ -1,0 +1,67 @@
+---
+layout: runbook
+title: '#4471 · three problems, not one'
+owner: support desk
+status: draft
+reviewed: 2026-11-06
+signature: kb-student-s01e03
+---
+
+<script>
+  import ProblemTable from '#lib/kb/ProblemTable.svelte';
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+
+  const issues = {
+    parser: 'ISSUE_PARSER',
+    hint: 'ISSUE_HINT',
+    'one-day move': 'ISSUE_ONE_DAY',
+  };
+</script>
+
+The [#4471 page](/kb/incidents/4471) says the reports are one issue with one fix queued. Its own
+table shows more than one cause. Read report by report, #4471 holds three problems. Each one now
+has a ticket of its own.
+
+<Callout kind="warn">
+The queued parser fix closes the first problem only. The other two keep coming after it ships.
+</Callout>
+
+## What #4471 holds
+
+<ProblemTable ticket={4471} {issues} />
+
+## The three problems
+
+**`parser` — day and month swapped.** The shared parser reads every date month first. Every tenant on file writes
+the day first, so 3 May becomes 5 March. This is the fix that is queued.
+
+**`hint` — the booking-v3 form asks for the wrong order.** Under its date field, booking-v3
+prints `MM/DD/YYYY`. People type month first, as the hint tells them, and the form reads the
+tenant's way, day first. Only form reports from tenants on booking-v3. The parser fix does not
+touch it: the form needs a day-first hint.
+
+**`one-day move` — the date lands one day off.** These reports describe a date one day early,
+an invite sent before the booking, and two clients in Lisbon and Toronto who got different days
+for one meeting. That is a time zone problem, not a swap. The desk noted them
+(`desk-notes.json`), and the #4471 table files them under `parser` by tenant.
+
+## How the count was made
+
+- The export repeats some rows. One id is one report.
+- Cause by tenant and channel, as in `causes.ts`. `intakeTag` is not the cause: intake tags
+  `hint` whenever the reporter's browser is `en-US`.
+- The reports the desk read as a one-day move get their own row.
+
+For comparison, the desk's table on #4471, by cause only:
+
+<CauseTable ticket={4471} />
+
+## What changes on the desk
+
+- Merging on subject line ([decision 0001](/kb/decisions/0001-dedupe-by-subject)) put all three
+  problems in one ticket, because their subjects match. Check the cause before you merge.
+- Close #4471 against the parser fix only. Keep the other two tickets open.
+
+<RenderStamp {signature} />
